@@ -139,9 +139,11 @@ class ParcelaDividaResource extends Resource
                             ->orderByRaw('STR_TO_DATE(parcela, "%m-%Y") DESC') // Ordena pela data de forma decrescente
 
                             ->first();
-
+                        if(isset($firstParcela->parcela))
+                        {
+                            return $query->where('parcela', $firstParcela->parcela);
+                        }
                         // Caso contrário, retorna as parcelas para o mês atual
-                        return $query->where('parcela', $firstParcela->parcela);
                     }),
 
                     Filter::make('pessoa_id')
