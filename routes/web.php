@@ -14,6 +14,7 @@ use Filament\Pages\Login;
 |
 */
 
+
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/admin');
 });

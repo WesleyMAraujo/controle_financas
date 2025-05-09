@@ -24,3 +24,20 @@ Após clonar o repositório:
 ```bash
 composer install
 php artisan key:generate
+```
+
+## 👤 Criação de Usuário Administrador (Filament)
+Para acessar o painel do Filament:
+```bash
+php artisan make:filament-user
+```
+
+## 🚀 Iniciar o Servidor Local
+
+Para iniciar o servidor local do Laravel, use o comando:
+
+```bash
+php artisan serve
+```
+
+O servidor será iniciado em `http://127.0.0.1:8000` por padrão.
