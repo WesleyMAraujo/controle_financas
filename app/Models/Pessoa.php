@@ -11,7 +11,7 @@ class Pessoa extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = ['nome'];
+    protected $fillable = ['nome', 'salario'];
 
     public function divida()
     {

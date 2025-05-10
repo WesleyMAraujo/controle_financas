@@ -78,7 +78,7 @@ class ParcelaDividaResource extends Resource
                 Tables\Columns\TextColumn::make('divida.pessoa.nome')  //AQUI
                     ->label('Pessoa')
                     ->sortable(),
-                    Tables\Columns\TextColumn::make('divida.valor_parcela')
+                Tables\Columns\TextColumn::make('divida.valor_parcela')
                     ->label('Valor Parcela')
                     ->money('brl')
                     ->sortable(),
