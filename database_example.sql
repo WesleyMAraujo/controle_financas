@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Tempo de geração: 09/05/2025 às 11:14
+-- Tempo de geração: 10/05/2025 às 13:06
 -- Versão do servidor: 8.0.42-0ubuntu0.24.04.1
 -- Versão do PHP: 8.2.28
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Banco de dados: `financas`
+-- Banco de dados: `financ`
 --
 
 -- --------------------------------------------------------
@@ -28,9 +28,9 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `cartoes` (
-  `id` int UNSIGNED NOT NULL,
+  `id` bigint UNSIGNED NOT NULL,
   `nome` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `limite` float DEFAULT NULL,
+  `limite` decimal(10,2) DEFAULT NULL,
   `dia_vencimento` int DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -45,27 +45,17 @@ CREATE TABLE `cartoes` (
 
 CREATE TABLE `dividas` (
   `id` bigint UNSIGNED NOT NULL,
-  `nome` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-  `cartao_id` int UNSIGNED DEFAULT NULL,
+  `nome` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `cartao_id` bigint UNSIGNED DEFAULT NULL,
   `valor_parcela` decimal(10,2) NOT NULL,
-  `valor_total` decimal(10,2) NOT NULL,
   `parcelas_restantes` int NOT NULL,
-  `data_inicio` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `valor_total` decimal(10,2) GENERATED ALWAYS AS ((`valor_parcela` * `parcelas_restantes`)) VIRTUAL,
+  `pessoa_id` bigint UNSIGNED DEFAULT NULL,
+  `data_inicio` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  `pessoa_id` bigint UNSIGNED DEFAULT NULL
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Acionadores `dividas`
---
-DELIMITER $$
-CREATE TRIGGER `calcular_valor_total_dividas` BEFORE INSERT ON `dividas` FOR EACH ROW BEGIN
-                SET NEW.valor_total = NEW.valor_parcela * NEW.parcelas_restantes;
-            END
-$$
-DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -105,10 +95,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (3, '2019_08_19_000000_create_failed_jobs_table', 1),
 (4, '2019_12_14_000001_create_personal_access_tokens_table', 1),
 (5, '2025_05_06_232515_create_cartoes_table', 1),
-(6, '2025_05_07_002925_create_pessoas_table', 2),
-(7, '2025_05_07_004049_create_dividas_table', 3),
-(8, '2025_05_07_005958_create_status_table', 4),
-(9, '2025_05_07_010347_create_parcelas_dividas_table', 5);
+(6, '2025_05_07_002925_create_pessoas_table', 1),
+(7, '2025_05_07_004049_create_dividas_table', 1),
+(8, '2025_05_07_005958_create_status_table', 1),
+(9, '2025_05_07_010347_create_parcelas_dividas_table', 1);
 
 -- --------------------------------------------------------
 
@@ -118,8 +108,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 
 CREATE TABLE `parcelas_dividas` (
   `id` bigint UNSIGNED NOT NULL,
-  `divida_id` bigint UNSIGNED NOT NULL,
-  `status_id` bigint UNSIGNED NOT NULL,
+  `divida_id` bigint UNSIGNED DEFAULT NULL,
+  `status_id` bigint UNSIGNED DEFAULT NULL,
   `parcela` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -166,17 +156,11 @@ CREATE TABLE `personal_access_tokens` (
 CREATE TABLE `pessoas` (
   `id` bigint UNSIGNED NOT NULL,
   `nome` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `salario` decimal(10,2) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Despejando dados para a tabela `pessoas`
---
-
-INSERT INTO `pessoas` (`id`, `nome`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Eu', '2025-05-07 03:33:47', '2025-05-07 03:33:47', NULL);
 
 -- --------------------------------------------------------
 
@@ -197,9 +181,9 @@ CREATE TABLE `status` (
 --
 
 INSERT INTO `status` (`id`, `nome`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'À Pagar', '2025-05-07 04:00:47', '2025-05-07 04:00:47', NULL),
-(2, 'Pago', '2025-05-07 04:00:47', '2025-05-07 04:00:47', NULL),
-(3, 'Reservado', '2025-05-07 04:00:47', '2025-05-07 04:00:47', NULL);
+(1, 'À Pagar', '2025-05-10 15:47:25', '2025-05-10 15:47:25', NULL),
+(2, 'Pago', '2025-05-10 15:47:25', '2025-05-10 15:47:25', NULL),
+(3, 'Reservado', '2025-05-10 15:47:25', '2025-05-10 15:47:25', NULL);
 
 -- --------------------------------------------------------
 
@@ -234,7 +218,7 @@ ALTER TABLE `cartoes`
 ALTER TABLE `dividas`
   ADD PRIMARY KEY (`id`),
   ADD KEY `dividas_cartao_id_foreign` (`cartao_id`),
-  ADD KEY `fk_dividas_pessoa_id` (`pessoa_id`);
+  ADD KEY `dividas_pessoa_id_foreign` (`pessoa_id`);
 
 --
 -- Índices de tabela `failed_jobs`
@@ -298,13 +282,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de tabela `cartoes`
 --
 ALTER TABLE `cartoes`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `dividas`
 --
 ALTER TABLE `dividas`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `failed_jobs`
@@ -322,7 +306,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT de tabela `parcelas_dividas`
 --
 ALTER TABLE `parcelas_dividas`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=882;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de tabela `personal_access_tokens`
@@ -334,7 +318,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT de tabela `pessoas`
 --
 ALTER TABLE `pessoas`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `status`
@@ -356,8 +340,8 @@ ALTER TABLE `users`
 -- Restrições para tabelas `dividas`
 --
 ALTER TABLE `dividas`
-  ADD CONSTRAINT `dividas_cartao_id_foreign` FOREIGN KEY (`cartao_id`) REFERENCES `cartoes` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_dividas_pessoa_id` FOREIGN KEY (`pessoa_id`) REFERENCES `pessoas` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `dividas_cartao_id_foreign` FOREIGN KEY (`cartao_id`) REFERENCES `cartoes` (`id`),
+  ADD CONSTRAINT `dividas_pessoa_id_foreign` FOREIGN KEY (`pessoa_id`) REFERENCES `pessoas` (`id`);
 
 --
 -- Restrições para tabelas `parcelas_dividas`
