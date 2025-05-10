@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('parcelas_dividas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('divida_id')->constrained('dividas');
-            $table->foreignId('status_id')->constrained('status');
+            $table->foreignId('divida_id')->nullable()->constrained('dividas');
+            $table->foreignId('status_id')->nullable()->constrained('status');
             $table->string('parcela'); // Armazenar como string no formato MM-AAAA
             $table->timestamps();
             $table->softDeletes();

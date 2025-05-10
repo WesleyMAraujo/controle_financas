@@ -9,10 +9,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('cartoes', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('nome');
             $table->decimal('limite', 10, 2)->nullable();
-            $table->date('dia_vencimento')->nullable();
+            $table->integer('dia_vencimento')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

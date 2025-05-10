@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('pessoas', function (Blueprint $table) {
             $table->id();
             $table->string('nome');
+            $table->decimal('salario', 10, 2)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
