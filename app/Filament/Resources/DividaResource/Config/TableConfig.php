@@ -28,19 +28,16 @@ class TableConfig
                 ->label('Valor Parcela')
                 ->money('brl')
                 ->sortable(),
+            Tables\Columns\TextColumn::make('parcelas_restantes')
+                ->label('Parcelas')
+                ->sortable(),
             Tables\Columns\TextColumn::make('valor_total')
                 ->label('Total')
                 ->money('brl')
                 ->sortable(),
-            Tables\Columns\TextColumn::make('parcelas_restantes')
-                ->label('Parcelas')
-                ->sortable(),
+
             Tables\Columns\TextColumn::make('data_inicio')
                 ->label('Data Início')
-                ->sortable(),
-            Tables\Columns\TextColumn::make('created_at')
-                ->label('Criado em')
-                ->dateTime()
                 ->sortable(),
         ];
     }

@@ -8,6 +8,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Enums\FiltersLayout;
 use App\Filament\Resources\DividaResource\Config\FormConfig;
 use App\Filament\Resources\DividaResource\Config\FiltersConfig;
 use App\Filament\Resources\DividaResource\Config\TableConfig;
@@ -27,7 +28,7 @@ class DividaResource extends Resource
     {
         return $table
             ->columns(TableConfig::getColumns())
-            ->filters(FiltersConfig::getFilters())
+            ->filters(FiltersConfig::getFilters(),  layout: FiltersLayout::AboveContent)
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
