@@ -17,7 +17,20 @@ class CartaoResource extends Resource
 {
     protected static ?string $model = Cartao::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-credit-card';
+
+    protected static ?string $label = 'Cartões'; 
+
+    // Caso prefira usar o método getLabel
+    public static function getLabel(): string
+    {
+        return 'Cartões';
+    }
+
+    public static function getPluralLabel(): string
+    {
+        return 'Cartões';
+    }
 
     public static function form(Form $form): Form //Formulário para criar e editar cartões
     {

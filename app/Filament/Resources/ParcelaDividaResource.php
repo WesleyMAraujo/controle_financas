@@ -23,7 +23,21 @@ class ParcelaDividaResource extends Resource
 {
     protected static ?string $model = ParcelaDivida::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-calendar';
+
+    // Alterar o nome que aparece no menu
+    protected static ?string $label = 'Parcelas'; // Nome do recurso no menu
+
+    // Caso prefira usar o método getLabel
+    public static function getLabel(): string
+    {
+        return 'Parcelas'; // Nome do recurso no menu
+    }
+
+    public static function getPluralLabel(): string
+    {
+        return 'Tabela de Parcelas'; // Nome plural que pode ser usado em outros contextos
+    }
 
     public static function form(Form $form): Form
     {
