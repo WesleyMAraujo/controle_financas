@@ -40,10 +40,6 @@ class TableConfig
             Tables\Columns\TextColumn::make('parcela')
                 ->label('Parcela')
                 ->sortable(),
-            Tables\Columns\TextColumn::make('created_at')
-                ->label('Criado em')
-                ->dateTime()
-                ->sortable(),
         ];
     }
 }

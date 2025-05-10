@@ -47,12 +47,12 @@ class FiltersConfig
                 Select::make('parcela')
                     ->label('Mês')
                     ->options(fn () => ParcelaDivida::query()
-                    ->orderByRaw('STR_TO_DATE(parcela, "%m-%Y") DESC') // Ordena pela data de forma decrescente
-
-
-                        ->select('parcela')
+                        ->where('parcela', '!=', '00-0000')
                         ->distinct()
-                        ->pluck('parcela', 'parcela'))
+                        ->pluck('parcela')
+                        ->sortBy(fn($parcela) => \DateTime::createFromFormat('m-Y', $parcela))
+                        ->mapWithKeys(fn($parcela) => [$parcela => $parcela])
+                    )
                     ->searchable()
                     ->placeholder('Mês'),
             ])
@@ -61,10 +61,11 @@ class FiltersConfig
                     return $query->where('parcela', $data['parcela']);
                 }
 
-                $firstParcela = ParcelaDivida::query()
-                    ->orderByRaw('STR_TO_DATE(parcela, "%m-%Y") DESC') // Ordena pela data de forma decrescente
-
+                $firstParcela = ParcelaDivida::all()
+                    ->filter(fn($item) => $item->parcela !== '00-0000')
+                    ->sortBy(fn($item) => \DateTime::createFromFormat('m-Y', $item->parcela))
                     ->first();
+
                 if(isset($firstParcela->parcela))
                 {
                     return $query->where('parcela', $firstParcela->parcela);
