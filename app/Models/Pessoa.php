@@ -20,6 +20,11 @@ class Pessoa extends Model
         return $this->somaParcelasMes();
     }
 
+    public function dividaTotalCartoes()
+    {
+        return $this->somaParcelasMes(null, true);
+    }
+
     public function dividaTotalMesPago()
     {
         return $this->somaParcelasMes(StatusConstant::PAGO);
@@ -42,7 +47,7 @@ class Pessoa extends Model
             ->sum('valor_parcela');
     }
 
-    protected function somaParcelasMes($status = null)
+    protected function somaParcelasMes($status = null, $cartao = false)
     {
         $mesAtual = Carbon::now()->format('m-Y');
 
@@ -53,6 +58,13 @@ class Pessoa extends Model
 
         if (!is_null($status)) {
             $query->where('status_id', $status);
+        }
+
+        if ($cartao) {
+            return $query->select('dividas.cartao_id')
+            ->selectRaw('SUM(valor_parcela) as total')
+            ->groupBy('dividas.cartao_id')
+            ->pluck('total', 'dividas.cartao_id');
         }
 
         return $query->sum('valor_parcela');
