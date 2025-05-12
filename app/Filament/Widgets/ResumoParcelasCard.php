@@ -4,6 +4,7 @@ namespace App\Filament\Widgets;
 use Filament\Widgets\Widget;
 use App\Models\Pessoa;
 use Illuminate\Contracts\View\View;
+use App\Constants\CartaoContant;
 
 class ResumoParcelasCard extends Widget
 {
@@ -15,7 +16,6 @@ class ResumoParcelasCard extends Widget
         // Obtenha os dados necessários
         $pessoas = Pessoa::all();
 
-        // Retorne a view com os dados
         return view('filament.widgets.resumo-parcelas', [
             'pessoas' => $pessoas,
         ]);

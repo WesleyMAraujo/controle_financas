@@ -16,4 +16,5 @@ class Cartao extends Model
         'dia_vencimento',
         'limite'
     ];
+    
 }

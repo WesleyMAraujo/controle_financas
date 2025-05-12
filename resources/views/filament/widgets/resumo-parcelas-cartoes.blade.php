@@ -1,4 +1,4 @@
-<div wire:poll.5s="" class="fi-wi-stats-overview-stats-ctn grid gap-6 md:grid-cols-3">
+<div wire:poll.5s="" class="fi-wi-stats-overview-stats-ctn grid gap-6 md:grid-cols-1">
     @foreach ($pessoas as $pessoa)
         <div class="fi-wi-stats-overview-stat relative rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-950/5 dark:bg-gray-900 dark:ring-white/10">
             <div class="grid gap-y-2">
@@ -21,7 +21,6 @@
                         class="fi-wi-stats-overview-stat-description text-sm fi-color-custom text-custom-600 dark:text-custom-400 fi-color-danger"
                         style="--c-400:var(--danger-400);--c-600:var(--danger-600);">
                         Total: {{ $pessoa->dividaTotalMes() }}
-                        
                     </span>
                     <br>
 
