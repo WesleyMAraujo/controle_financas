@@ -6,12 +6,12 @@ use App\Filament\Resources\DividaResource\Pages;
 use App\Models\Divida;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Tables\Enums\FiltersLayout;
 use App\Filament\Resources\DividaResource\Config\FormConfig;
 use App\Filament\Resources\DividaResource\Config\FiltersConfig;
 use App\Filament\Resources\DividaResource\Config\TableConfig;
+use App\Filament\Resources\DividaResource\Config\ActionsConfig;
 
 class DividaResource extends Resource
 {
@@ -28,18 +28,10 @@ class DividaResource extends Resource
     {
         return $table
             ->columns(TableConfig::getColumns())
-            ->filters(FiltersConfig::getFilters(),  layout: FiltersLayout::AboveContent)
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-                Tables\Actions\ForceDeleteAction::make(),
-                Tables\Actions\RestoreAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
-                Tables\Actions\ForceDeleteBulkAction::make(),
-                Tables\Actions\RestoreBulkAction::make(),
-            ]);
+            ->filters(FiltersConfig::getFilters())
+            ->searchable()
+            ->actions(ActionsConfig::getActions())  // Usando as ações
+            ->bulkActions(ActionsConfig::getBulkActions());
     }
 
     public static function getRelations(): array
@@ -53,8 +45,8 @@ class DividaResource extends Resource
     {
         return [
             'index' => Pages\ListDividas::route('/'),
-            'create' => Pages\CreateDivida::route('/create'),
-            'edit' => Pages\EditDivida::route('/{record}/edit'),
+            // 'create' => Pages\CreateDivida::route('/create'),
+            // 'edit' => Pages\EditDivida::route('/{record}/edit'),
         ];
     }
 

@@ -11,6 +11,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use App\Filament\Resources\PessoaResource\Config\TableConfig;
 use App\Filament\Resources\PessoaResource\Config\FormConfig;
+use App\Filament\Resources\PessoaResource\Config\ActionsConfig;
 
 class PessoaResource extends Resource
 {
@@ -27,19 +28,12 @@ class PessoaResource extends Resource
     {
         return $table
             ->columns(TableConfig::getColumns())
+            ->searchable()
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-                Tables\Actions\RestoreAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
-                Tables\Actions\ForceDeleteBulkAction::make(),
-                Tables\Actions\RestoreBulkAction::make(),
-            ]);
+            ->actions(ActionsConfig::getActions())
+            ->bulkActions(ActionsConfig::getBulkActions());
     }
 
     public static function getRelations(): array
@@ -53,8 +47,8 @@ class PessoaResource extends Resource
     {
         return [
             'index' => Pages\ListPessoas::route('/'),
-            'create' => Pages\CreatePessoa::route('/create'),
-            'edit' => Pages\EditPessoa::route('/{record}/edit'),
+            // 'create' => Pages\CreatePessoa::route('/create'),
+            // 'edit' => Pages\EditPessoa::route('/{record}/edit'),
         ];
     }
 }

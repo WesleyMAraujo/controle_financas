@@ -12,6 +12,7 @@ use Filament\Tables\Table;
 use App\Filament\Resources\CartaoResource\Config\FormConfig;
 use App\Filament\Resources\CartaoResource\Config\FiltersConfig;
 use App\Filament\Resources\CartaoResource\Config\TableConfig;
+use App\Filament\Resources\CartaoResource\Config\ActionsConfig;
 
 class CartaoResource extends Resource
 {
@@ -44,15 +45,9 @@ class CartaoResource extends Resource
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-                Tables\Actions\RestoreAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
-                Tables\Actions\ForceDeleteBulkAction::make(),
-            ]);
+            ->searchable()
+            ->actions(ActionsConfig::getActions())
+            ->bulkActions(ActionsConfig::getBulkActions());
     }
 
     public static function getRelations(): array
@@ -66,8 +61,8 @@ class CartaoResource extends Resource
     {
         return [
             'index' => Pages\ListCartaos::route('/'),
-            'create' => Pages\CreateCartao::route('/create'),
-            'edit' => Pages\EditCartao::route('/{record}/edit'),
+            // 'create' => Pages\CreateCartao::route('/create'),
+            // 'edit' => Pages\EditCartao::route('/{record}/edit'),
         ];
     }
 }

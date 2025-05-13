@@ -12,10 +12,12 @@ use Filament\Tables\Table;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Actions\BulkAction;
+use Filament\Tables\Actions\ActionGroup;
 use Illuminate\Support\Collection;
 use App\Filament\Resources\ParcelaDividaResource\Config\FiltersConfig;
 use App\Filament\Resources\ParcelaDividaResource\Config\FormConfig;
 use App\Filament\Resources\ParcelaDividaResource\Config\TableConfig;
+use App\Filament\Resources\ParcelaDividaResource\Config\ActionsConfig;
 
 class ParcelaDividaResource extends Resource
 {
@@ -46,51 +48,10 @@ class ParcelaDividaResource extends Resource
     {
         return $table
             ->columns(TableConfig::getColumns())
-            ->filters(FiltersConfig::getFilters(), layout: FiltersLayout::AboveContent)
-            ->actions([
-                Action::make('Pagar')
-                    ->label('Pagar')
-                    ->color('success')
-                    ->icon('heroicon-o-check-circle')
-                    ->requiresConfirmation()
-                    ->action(function (ParcelaDivida $record) {
-                        $record->status_id = 2; // Assume que 2 é o ID para "Pago"
-                        $record->save();
-                    }),
-                Action::make('Reservar')
-                    ->label('Reservar')
-                    ->requiresConfirmation()
-                    ->action(function (ParcelaDivida $record) {
-                        $record->status_id = 3; // Assume que 3 é o ID para "Reservado"
-                        $record->save();
-                    }),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-                Tables\Actions\ForceDeleteAction::make(),
-                Tables\Actions\RestoreAction::make(),
-
-            ])
-            ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
-
-                BulkAction::make('pagar')
-                    ->label('Pagar selecionadas')
-                    ->icon('heroicon-o-check-circle')
-                    ->color('success')
-                    ->requiresConfirmation()
-                    ->action(fn (Collection $records) => $records->each(function ($record) {
-                        $record->update(['status_id' => 2]); // 2 = Pago
-                    })),
-
-                BulkAction::make('reservar')
-                    ->label('Reservar selecionadas')
-                    ->icon('heroicon-o-bookmark')
-                    ->color('warning')
-                    ->requiresConfirmation()
-                    ->action(fn (Collection $records) => $records->each(function ($record) {
-                        $record->update(['status_id' => 3]); // 3 = Reservado
-                    })),
-            ]);
+            ->filters(FiltersConfig::getFilters())
+            ->searchable()
+            ->actions(ActionsConfig::getActions())
+            ->bulkActions(ActionsConfig::getBulkActions());
     }
 
     public static function getRelations(): array
@@ -104,8 +65,8 @@ class ParcelaDividaResource extends Resource
     {
         return [
             'index' => Pages\ListParcelaDividas::route('/'),
-            'create' => Pages\CreateParcelaDivida::route('/create'),
-            'edit' => Pages\EditParcelaDivida::route('/{record}/edit'),
+            // 'create' => Pages\CreateParcelaDivida::route('/create'),
+            // 'edit' => Pages\EditParcelaDivida::route('/{record}/edit'),
         ];
     }
 }

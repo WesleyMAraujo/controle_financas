@@ -28,6 +28,9 @@ class TableConfig
                 ->label('Valor Parcela')
                 ->money('brl')
                 ->sortable(),
+            Tables\Columns\TextColumn::make('divida.parcelas_restantes')  //AQUI
+                ->label('Parcelas Restantes')
+                ->sortable(),
             Tables\Columns\TextColumn::make('status.nome') // Exibe o nome do status
                 ->label('Status')
                 ->badge()
