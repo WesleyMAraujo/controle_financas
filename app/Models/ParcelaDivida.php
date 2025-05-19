@@ -17,13 +17,15 @@ class ParcelaDivida extends Model
         'parcela',
     ];
 
+    // ParcelaDivida.php
+
     public function divida()
     {
-        return $this->belongsTo(Divida::class, 'divida_id', 'id');
+        return $this->belongsTo(Divida::class);
     }
 
     public function status()
     {
-        return $this->belongsTo(Status::class, 'status_id', 'id');
+        return $this->belongsTo(Status::class);
     }
 }

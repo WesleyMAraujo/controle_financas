@@ -12,4 +12,10 @@ class Status extends Model
     protected $table = 'status';
 
     protected $fillable = ['nome'];
+
+
+    public function parcelaDividas()
+    {
+        return $this->hasMany(ParcelaDivida::class);
+    }
 }

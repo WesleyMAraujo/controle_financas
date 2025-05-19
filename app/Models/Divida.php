@@ -32,4 +32,11 @@ class Divida extends Model
     {
         return $this->belongsTo(ParcelaDivida::class, 'id', 'divida_id');
     }
+
+    // Divida.php
+    public function parcelaDividas()
+    {
+        return $this->hasMany(ParcelaDivida::class);
+    }
+
 }
