@@ -34,6 +34,14 @@ class FormConfig
                                 ->integer()
                                 ->rule('min:1')
                                 ->rule('max:31'),
+
+                            TextInput::make('dia_fechamento')
+                                ->label('Dia de Fechamento')
+                                ->numeric()
+                                ->minValue(1)
+                                ->maxValue(31)
+                                ->placeholder('1 a 31')
+                                ->nullable(),
                         ]),
                 ]),
 

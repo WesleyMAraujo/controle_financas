@@ -14,6 +14,7 @@ class Cartao extends Model
     protected $fillable = [
         'nome',
         'dia_vencimento',
+        'dia_fechamento',
         'limite'
     ];
 
