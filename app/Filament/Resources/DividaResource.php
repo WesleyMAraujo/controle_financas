@@ -19,6 +19,8 @@ class DividaResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-banknotes';
 
+    protected static ?string $navigationGroup = 'Dividas';
+
     public static function form(Form $form): Form
     {
         return $form->schema(FormConfig::schema());

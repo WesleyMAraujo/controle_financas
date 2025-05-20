@@ -19,6 +19,8 @@ class PessoaResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
 
+    protected static ?string $navigationGroup = 'Configurações';
+
     public static function form(Form $form): Form
     {
         return $form->schema(FormConfig::schema());

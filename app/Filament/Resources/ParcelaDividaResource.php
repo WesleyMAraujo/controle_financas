@@ -22,11 +22,11 @@ use App\Filament\Resources\ParcelaDividaResource\Config\ActionsConfig;
 class ParcelaDividaResource extends Resource
 {
     protected static ?string $model = ParcelaDivida::class;
-
     protected static ?string $navigationIcon = 'heroicon-o-calendar';
+    protected static ?string $label = 'Parcelas';
+    protected static ?string $navigationGroup = 'Dividas';
 
     // Alterar o nome que aparece no menu
-    protected static ?string $label = 'Parcelas'; // Nome do recurso no menu
 
     // Caso prefira usar o método getLabel
     public static function getLabel(): string
@@ -36,7 +36,7 @@ class ParcelaDividaResource extends Resource
 
     public static function getPluralLabel(): string
     {
-        return 'Tabela de Parcelas'; // Nome plural que pode ser usado em outros contextos
+        return 'Parcelas'; // Nome plural que pode ser usado em outros contextos
     }
 
     public static function form(Form $form): Form

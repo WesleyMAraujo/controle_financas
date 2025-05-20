@@ -22,6 +22,8 @@ class CartaoResource extends Resource
 
     protected static ?string $label = 'Cartões';
 
+    protected static ?string $navigationGroup = 'Configurações';
+
     // Caso prefira usar o método getLabel
     public static function getLabel(): string
     {
