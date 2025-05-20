@@ -28,8 +28,7 @@ class DividaResource extends Resource
     {
         return $table
             ->columns(TableConfig::getColumns())
-            ->filters(FiltersConfig::getFilters())
-            ->searchable()
+            ->filters(FiltersConfig::getFilters(), layout: FiltersLayout::AboveContent)
             ->actions(ActionsConfig::getActions())  // Usando as ações
             ->bulkActions(ActionsConfig::getBulkActions());
     }

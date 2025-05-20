@@ -30,7 +30,7 @@ class PessoaResource extends Resource
             ->columns(TableConfig::getColumns())
             ->searchable()
             ->filters([
-                Tables\Filters\TrashedFilter::make(),
+                Tables\Filters\TrashedFilter::make()
             ])
             ->actions(ActionsConfig::getActions())
             ->bulkActions(ActionsConfig::getBulkActions());
