@@ -16,5 +16,9 @@ class Cartao extends Model
         'dia_vencimento',
         'limite'
     ];
-    
+
+    public function dividas()
+    {
+        return $this->hasMany(Divida::class);
+    }
 }

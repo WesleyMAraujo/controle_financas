@@ -19,6 +19,15 @@ class TableConfig
                 ->label('Limite')
                 ->money('brl')
                 ->searchable(),
+TextColumn::make('limite_disponivel')
+    ->label('Limite Disponível')
+    ->money('brl')
+    ->getStateUsing(function ($record) {
+        $record->loadMissing('dividas'); // carrega o relacionamento se ainda não foi carregado
+        $valorTotalDividas = $record->dividas->sum('valor_total');
+        return $record->limite - $valorTotalDividas;
+    }),
+
             TextColumn::make('dia_vencimento')
                 ->label('Dia de Vencimento') // Rótulo da coluna
                 ->searchable(),
