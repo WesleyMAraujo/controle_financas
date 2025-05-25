@@ -38,7 +38,7 @@ class TableConfig
                     Sum::make(),
                 ])
                 ->sortable(),
-            Tables\Columns\TextColumn::make('divida.parcelas_restantes')  //AQUI
+            Tables\Columns\TextColumn::make('parcelas_restantes')  //AQUI
                 ->label('Parcelas Restantes')
                 ->sortable(),
             Tables\Columns\TextColumn::make('status.nome') // Exibe o nome do status

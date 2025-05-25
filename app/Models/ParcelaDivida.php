@@ -17,7 +17,9 @@ class ParcelaDivida extends Model
         'parcela',
     ];
 
-    // ParcelaDivida.php
+    protected $appends = [
+        'parcelas_restantes',
+    ];
 
     public function divida()
     {
@@ -27,5 +29,23 @@ class ParcelaDivida extends Model
     public function status()
     {
         return $this->belongsTo(Status::class);
+    }
+
+    public function getParcelasRestantesAttribute(): int
+    {
+        $divida = $this->divida;
+        $totalParcelas = $divida->parcelas_restantes ?? 0;
+        $parcelaAtual = $this->parcela;
+
+        $parcelasPagas = $divida->parcela()->where('parcela', '<=', $parcelaAtual)->count();
+
+        $total = $totalParcelas - $parcelasPagas;
+
+        if($total <= 0)
+        {
+            $total = 1;
+        }
+
+        return $total;
     }
 }
