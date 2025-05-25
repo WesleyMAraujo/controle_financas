@@ -34,17 +34,12 @@ class ParcelaDivida extends Model
     public function getParcelasRestantesAttribute(): int
     {
         $divida = $this->divida;
-        $totalParcelas = $divida->parcelas_restantes ?? 0;
+        $totalParcelas = $divida->parcela()->count();
         $parcelaAtual = $this->parcela;
 
         $parcelasPagas = $divida->parcela()->where('parcela', '<=', $parcelaAtual)->count();
 
         $total = $totalParcelas - $parcelasPagas;
-
-        if($total <= 0)
-        {
-            $total = 1;
-        }
 
         return $total;
     }
