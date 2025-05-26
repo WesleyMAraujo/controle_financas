@@ -11,7 +11,7 @@ class Status extends Model
 
     protected $table = 'status';
 
-    protected $fillable = ['nome'];
+    protected $fillable = ['nome', 'color'];
 
 
     public function parcelaDividas()
