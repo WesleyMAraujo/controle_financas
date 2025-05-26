@@ -16,28 +16,21 @@ use Filament\Forms\Components\ColorPicker;
 
 class StatusResource extends Resource
 {
-    // Associate the model with this resource
     protected static ?string $model = Status::class;
-
-    // Set the navigation icon for the sidebar
-    protected static ?string $navigationIcon = 'heroicon-o-tag'; // Choose an appropriate icon
-
-    // Set the navigation group (optional)
-    protected static ?string $navigationGroup = 'Configurações'; // Example group
-
-    // Set the navigation sort order (optional)
-    protected static ?int $navigationSort = 1; // Example sort order
+    protected static ?string $navigationIcon = 'heroicon-o-tag';
+    protected static ?string $navigationGroup = 'Configurações';
+    protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('nome') // Your status name column
+                Forms\Components\TextInput::make('nome')
                     ->label('Nome do Status')
                     ->required()
                     ->maxLength(255),
-                ColorPicker::make('color') // Make sure 'color' matches your column name
-                    ->label('Cor do Status') // Label for the form field
+                ColorPicker::make('color')
+                    ->label('Cor do Status')
                     ->nullable(),
             ]);
     }
@@ -50,7 +43,7 @@ class StatusResource extends Resource
                     ->label('ID')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('nome') // Your status name column
+                Tables\Columns\TextColumn::make('nome')
                     ->label('Nome')
                     ->sortable()
                     ->searchable(),
@@ -87,7 +80,7 @@ class StatusResource extends Resource
     {
         return parent::getEloquentQuery()
             ->withoutGlobalScopes([
-                SoftDeletingScope::class, // Remove this if you don't use soft deletes
+                SoftDeletingScope::class,
             ]);
     }
 }
