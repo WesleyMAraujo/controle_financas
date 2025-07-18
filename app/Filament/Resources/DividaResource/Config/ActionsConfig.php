@@ -38,7 +38,7 @@ class ActionsConfig {
                             ->latest('parcela')
                             ->count();
 
-                        if($parelasRestantes > 1)
+                        if($parelasRestantes >= 1)
                         {
                             $mesAtualAnoAtual = Carbon::now()->format('m-Y');
 
@@ -50,15 +50,13 @@ class ActionsConfig {
                                 ->body("As parcelas da dívida '{$record->nome_da_divida}' foram adiantadas.")
                                 ->success()
                                 ->send();
+                        } else {
+                            \Filament\Notifications\Notification::make()
+                                ->title('Erro!')
+                                ->body("Não existem parcelas para serem adiantadas")
+                                ->danger()
+                                ->send();
                         }
-
-                        \Filament\Notifications\Notification::make()
-                            ->title('Erro!')
-                            ->body("Não existem parcelas para serem adiantadas")
-                            ->danger()
-                            ->send();
-
-
                     }),
             ]),
         ];
